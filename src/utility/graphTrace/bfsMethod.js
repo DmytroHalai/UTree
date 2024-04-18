@@ -4,15 +4,16 @@ import {Queue} from "./classes.js";
 
 const bfs = (matrix, a) => {
     const count = matrix.length;
-    const checked = 1, unChecked = 0
+    const checked = 1,
+        unChecked = 0;
     const bfsMatrix = new Array(count).fill(unChecked);
-    bfsMatrix.forEach((value, index) => {
-        bfsMatrix[index] = new Array(count).fill(unChecked);
-    })
     const q = new Queue();
     const checkNumbers = new Array(count).fill(unChecked);
     let pointer = 0;
     let checkNumber = 1;
+    bfsMatrix.forEach((value, index) => {
+        bfsMatrix[index] = new Array(count).fill(unChecked);
+    })
     checkNumbers[a] = checked;
     q.enqueue(a);
     while (!q.isEmpty()){
@@ -28,6 +29,6 @@ const bfs = (matrix, a) => {
         pointer++;
     }
     return {bfsMatrix, checkNumbers};
-}
+};
 
 export {bfs};

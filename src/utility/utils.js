@@ -26,18 +26,18 @@ const findVertexCoord = (vertexCount, firstCoordX, firstCoordy, ctxHeight, ctxWe
     let Coords = {
         xCoord: [],
         yCoord: []
-    }
-    const vertexesPerSide = Math.floor(vertexCount / 4);
+    };
+    const vertexesPerSide = Math.floor(vertexCount / 4); // 4 is amount of sides in rectangle
     const vertexAmount = {
         '1': vertexesPerSide,
         '2': vertexesPerSide,
         '3': vertexesPerSide,
         '4': vertexesPerSide + vertexCount % vertexesPerSide
-    }
+    };
     let pointer = 1;
     const heightInterval = ctxHeight / vertexesPerSide,
         weightInterval = ctxWeight / vertexesPerSide,
-        lastSideInterval = ctxHeight / vertexAmount['4']
+        lastSideInterval = ctxHeight / vertexAmount['4'];
     Coords.xCoord[0] = firstCoordX;
     Coords.yCoord[0] = firstCoordy;
     for (let i = 1; i < vertexCount; i++){

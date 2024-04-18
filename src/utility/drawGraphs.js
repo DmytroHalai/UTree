@@ -45,7 +45,7 @@ const drawCondGraph = (x, y, matrix, ctx, radius) => {
         val = {
             start: [],
             end: []
-        }
+        };
 
     Object.entries(foundComp).forEach(([, value]) => {
         CondCoords.xCoord.push(Coords.xCoord[value[0]]);

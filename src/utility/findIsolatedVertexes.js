@@ -7,7 +7,7 @@ const isolAndHangingVertexes = (matrix) => {
     let result = {
         isolResult: [],
         hangResult: []
-    }
+    };
     for (let i = 0; i < powerArr.length; i++){
         if (powerArr[i] === 1){
             result.hangResult.push(i + 1);

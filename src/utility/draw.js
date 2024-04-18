@@ -97,29 +97,27 @@ const drawEllipse = (Coords, i, j, angle, ctx, radius, colorName) => {
     return newAngle;
 }
 
-const arrow = (angle, xArrow, yArrow, ctx, colorName, isArc = false) => {
-    let leftX,
-        rightX,
+const leftRightArrow = (x, y, angle, rotate) => {
+    const leftX = x - ARROW_LENGTH * Math.cos(angle + rotate),
+        rightX = x - ARROW_LENGTH * Math.cos(angle - rotate),
+        leftY = y - ARROW_LENGTH * Math.sin(angle + rotate),
+        rightY = y - ARROW_LENGTH * Math.sin(angle - rotate);
+    return {
+        leftX,
         leftY,
-        rightY;
-    if (isArc === true){
-        leftX = xArrow - ARROW_LENGTH * Math.cos(angle );
-        rightX = xArrow - ARROW_LENGTH * Math.cos(angle - ARC_ROTATE);
-        leftY = yArrow - ARROW_LENGTH * Math.sin(angle + ARC_ROTATE);
-        rightY = yArrow - ARROW_LENGTH * Math.sin(angle - ARC_ROTATE);
+        rightX,
+        rightY
     }
-    else {
-        leftX = xArrow - ARROW_LENGTH * Math.cos(angle + ROTATE);
-        rightX = xArrow - ARROW_LENGTH * Math.cos(angle - ROTATE);
-        leftY = yArrow - ARROW_LENGTH * Math.sin(angle + ROTATE);
-        rightY = yArrow - ARROW_LENGTH * Math.sin(angle - ROTATE);
-    }
+}
+
+const arrow = (angle, xArrow, yArrow, ctx, colorName, isArc = false) => {
+    const coords = isArc ? leftRightArrow(ARC_ROTATE) : leftRightArrow(ROTATE);
     ctx.beginPath();
     ctx.strokeStyle = colorName;
     ctx.moveTo(xArrow, yArrow);
-    ctx.lineTo(leftX, leftY);
+    ctx.lineTo(coords.leftX, coords.leftY);
     ctx.moveTo(xArrow, yArrow);
-    ctx.lineTo(rightX, rightY);
+    ctx.lineTo(coords.rightX, coords.rightY);
     ctx.stroke();
     ctx.closePath();
 }
@@ -138,7 +136,7 @@ const drawEdge = (Coords, v, u, matrix, ctx, radius, colorName = 'black', isDir 
         drawStitch(Coords, v, ctx, radius, colorName);
         isDir === true ? drawArrow(Coords, u, angle, radius, ctx, colorName, false) : undefined;
     }
-    else if (matrix[u][v] === 1 && v > u || val){
+    else if (matrix[u][v] === 1 && v > u){
         drawEllipse(Coords, v, u, angle, ctx, radius, colorName);
         isDir === true ? drawArrow(Coords, u, angle, radius, ctx, colorName, true) : undefined;
     }

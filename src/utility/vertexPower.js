@@ -13,7 +13,7 @@ const findUndirMatrixPower = (matrix) => {
         result.push(counter);
     }
     return result;
-}
+};
 
 const findDirMatrixPower = (matrix) => {
     const result = [];
@@ -28,7 +28,7 @@ const findDirMatrixPower = (matrix) => {
         result.push(counter);
     }
     return result;
-}
+};
 
 const findDirMatrixEnterPower = (matrix) => {
     const result = [];
@@ -42,7 +42,7 @@ const findDirMatrixEnterPower = (matrix) => {
         result.push(counter);
     }
     return result;
-}
+};
 
 const findDirMatrixExitPower = (matrix) => {
     const result = [];
@@ -56,7 +56,7 @@ const findDirMatrixExitPower = (matrix) => {
         result.push(counter);
     }
     return result;
-}
+};
 
 const vertexesPower = (matrix) => {
     return {
@@ -65,5 +65,6 @@ const vertexesPower = (matrix) => {
         dirEnter: findDirMatrixEnterPower(matrix),
         dirExit: findDirMatrixExitPower(matrix)
     }
-}
+};
+
 export {vertexesPower, findDirMatrixPower}

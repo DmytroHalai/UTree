@@ -13,10 +13,9 @@ const dfs = (matrix, a) => {
     let checkNumber = 1;
     dfsMatrix.forEach((value, index) => {
         dfsMatrix[index] = new Array(count).fill(unChecked);
-    })
+    });
     checkNumbers[a] = checked;
     s.push(a);
-
     while (!s.isEmpty()){
         const v = s.first();
         for (let u = 0; u < count; u++){

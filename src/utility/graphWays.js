@@ -31,8 +31,9 @@ const findWays3 = (matrix) => {
                 if (matrix[i][k] === 1){
                     for (let f = 0; f < count; f++){
                         if (matrix[f][j] === 1){
-                            if (matrix[k][f] === 1 && k !== f)
-                                result.push([i + 1, k + 1, f + 1, j + 1])
+                            if (matrix[k][f] === 1 && k !== f) {
+                                result.push([i + 1, k + 1, f + 1, j + 1]);
+                            }
                         }
                     }
                 }
