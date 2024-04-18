@@ -16,7 +16,7 @@ class UTree {
 
     /**
      * This method makes startVertex trace around the graph be the DFS-method
-     * @param {Array<Array<number>>} matrix Adjacency matrix of the graph
+     * @param {[[]]} matrix Adjacency matrix of the graph
      * @param {number} startVertex The vertex, from which the tracing will be started
      * @returns {Object} Array
      * of the numbers under which vertexes were checked and adjacency matrix of the graph after tracing
