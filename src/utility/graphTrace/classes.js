@@ -1,43 +1,43 @@
-'use strict';
+"use strict";
 
 class Queue {
-    constructor() {
-        this.elements = [];
-    }
+  constructor() {
+    this.elements = [];
+  }
 
-    enqueue(element) {
-        this.elements.push(element);
-    }
+  enqueue(element) {
+    this.elements.push(element);
+  }
 
-    dequeue() {
-        return this.elements.shift();
-    }
+  dequeue() {
+    return this.elements.shift();
+  }
 
-    isEmpty() {
-        return this.elements.length === 0;
-    }
+  isEmpty() {
+    return this.elements.length === 0;
+  }
 }
 
 class Stack {
-    constructor() {
-        this.items = [];
-    }
+  constructor() {
+    this.items = [];
+  }
 
-    push(element) {
-        this.items.push(element);
-    }
+  push(element) {
+    this.items.push(element);
+  }
 
-    first() {
-        return this.items[this.items.length - 1];
-    }
+  first() {
+    return this.items[this.items.length - 1];
+  }
 
-    pop() {
-        return this.items.pop();
-    }
+  pop() {
+    return this.items.pop();
+  }
 
-    isEmpty() {
-        return this.items.length === 0;
-    }
+  isEmpty() {
+    return this.items.length === 0;
+  }
 }
 
-export {Queue, Stack};
+export { Queue, Stack };
