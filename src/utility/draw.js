@@ -38,7 +38,7 @@ const drawVertexes = (ctx, count, x, y, radius, status = '') => {
 
     for (let i = 0; i < count; i++) {
         const Coords = findVertexCoord(count, x, y);
-        status !== '' ? drawStatus(Coords, i, ctx, radius, "black", "н") : undefined;
+        if(status !== '') drawStatus(Coords, i, ctx, radius, "black", "н");
         drawOnlyVertex(Coords, i, ctx, radius);
     }
 };
@@ -98,16 +98,12 @@ const drawEllipse = (Coords, i, j, angle, ctx, radius, colorName) => {
 }
 
 const leftRightArrow = (x, y, angle, rotate) => {
-    const leftX = x - ARROW_LENGTH * Math.cos(angle + rotate),
-        rightX = x - ARROW_LENGTH * Math.cos(angle - rotate),
-        leftY = y - ARROW_LENGTH * Math.sin(angle + rotate),
-        rightY = y - ARROW_LENGTH * Math.sin(angle - rotate);
-    return {
-        leftX,
-        leftY,
-        rightX,
-        rightY
-    }
+    return ({
+        leftX: x - ARROW_LENGTH * Math.cos(angle + rotate),
+        leftY: x - ARROW_LENGTH * Math.cos(angle - rotate),
+        rightX: y - ARROW_LENGTH * Math.sin(angle + rotate),
+        rightY: y - ARROW_LENGTH * Math.sin(angle - rotate)
+    })
 }
 
 const arrow = (angle, xArrow, yArrow, ctx, colorName, isArc = false) => {
@@ -131,24 +127,24 @@ const drawArrow = (Coords, j, angle, vertexRadius, ctx, colorName, isArc) => {
 const drawEdge = (Coords, v, u, matrix, ctx, radius, colorName = 'black', isDir = false, isTrace = false) => {
     const angle = calculateAngle(Coords, v, u);
     const val = lineVal(Coords, v, u, radius);
-    isTrace === true ? drawStatus(Coords, v, ctx, radius, colorName, 'a') : undefined;
+    if (isTrace) drawStatus(Coords, u, ctx, radius, colorName, 'a');
     if (v === u) {
         drawStitch(Coords, v, ctx, radius, colorName);
-        isDir === true ? drawArrow(Coords, u, angle, radius, ctx, colorName, false) : undefined;
+         if (isDir) drawArrow(Coords, u, angle, radius, ctx, colorName, false);
     }
     else if (matrix[u][v] === 1 && v > u){
         drawEllipse(Coords, v, u, angle, ctx, radius, colorName);
-        isDir === true ? drawArrow(Coords, u, angle, radius, ctx, colorName, true) : undefined;
+        if (isDir) drawArrow(Coords, u, angle, radius, ctx, colorName, true);
     }
     else if (val){
         drawEllipse(Coords, v, u, angle, ctx, radius, colorName);
-        isTrace === true ? drawStatus(Coords, u, ctx, radius, colorName, 'в') : undefined;
-        isDir === true ? drawArrow(Coords, u, angle, radius, ctx, colorName, true) : undefined;
+         if (isTrace) drawStatus(Coords, u, ctx, radius, colorName, 'в');
+        if (isDir) drawArrow(Coords, u, angle, radius, ctx, colorName, true);
     }
     else {
         drawLine(Coords, v, u, ctx, radius, angle, colorName);
-        isTrace === true ? drawStatus(Coords, u, ctx, radius, colorName, 'в') : undefined;
-        isDir === true ? drawArrow(Coords, u, angle, radius, ctx, colorName, false) : undefined;
+        if (isTrace) drawStatus(Coords, u, ctx, radius, colorName, 'в');
+        if (isDir) drawArrow(Coords, u, angle, radius, ctx, colorName, false);
     }
 }
 
