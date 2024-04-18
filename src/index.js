@@ -11,12 +11,11 @@ import {findWays2, findWays3} from "./utility/graphWays.js";
 
 class UTree {
 
-    constructor() {
-    }
+    constructor() {}
 
     /**
      * This method makes startVertex trace around the graph be the DFS-method
-     * @param {[[]]} matrix Adjacency matrix of the graph
+     * @param {[[]]} matrix Adjacency matrix of the graph.
      * @param {number} startVertex The vertex, from which the tracing will be started
      * @returns {Object} Array
      * of the numbers under which vertexes were checked and adjacency matrix of the graph after tracing
