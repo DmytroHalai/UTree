@@ -58,6 +58,12 @@ const findDirMatrixExitPower = (matrix) => {
   return result;
 };
 
+/**
+ *This method finds powers of vertexes.
+ * @param {[[]]} matrix Adjacency matrix of the graph
+ * @returns {{dir: [], undir: [], dirEnter: [], dirExit: [], }} an object
+ * which fields are arrays of powers for each vertex.
+ */
 const vertexesPower = (matrix) => {
   return {
     dir: findDirMatrixPower(matrix),
@@ -67,4 +73,10 @@ const vertexesPower = (matrix) => {
   };
 };
 
-export { vertexesPower, findDirMatrixPower };
+module.exports = {
+  vertexesPower,
+  findDirMatrixPower,
+  findUndirMatrixPower,
+  findDirMatrixEnterPower,
+  findDirMatrixExitPower,
+}

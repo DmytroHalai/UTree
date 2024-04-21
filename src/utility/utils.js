@@ -158,12 +158,13 @@ const checkRepeat = (val, i) => {
   return result;
 };
 
-export {
-  lineVal,
+module.exports = {
   vector,
-  pseudoRandom,
-  checkRepeat,
   vectorModule,
+  pseudoRandom,
+  createCoordsCollection,
   findVertexCoord,
+  lineVal,
   calculateAngle,
-};
+  checkRepeat,
+}

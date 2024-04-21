@@ -1,6 +1,7 @@
 "use strict";
 
-import { findDirMatrixPower } from "./vertexPower.js";
+const { findDirMatrixPower } = require("./vertexPower.js");
+
 
 const isolAndHangingVertexes = (matrix) => {
   const powerArr = findDirMatrixPower(matrix);
@@ -18,12 +19,23 @@ const isolAndHangingVertexes = (matrix) => {
   return result;
 };
 
+/**
+ * This method finds hanged vertexes in the graph
+ * @param {[[]]} matrix Adjacency matrix of the graph.
+ * @returns {[]} array of hanged vertexes
+ */
 const hangVertex = (matrix) => {
   return isolAndHangingVertexes(matrix).hangResult;
 };
 
+/**
+ * This method finds isolated vertexes in the graph
+ * @param {[[]]} matrix Adjacency matrix of the graph.
+ * @returns {[]} array of isolated vertexes
+ */
 const isolVertex = (matrix) => {
   return isolAndHangingVertexes(matrix).isolResult;
 };
 
-export { hangVertex, isolVertex };
+
+module.exports = { hangVertex, isolVertex };

@@ -1,12 +1,13 @@
 "use strict";
 
-import {
+const {
   calculateAngle,
   findVertexCoord,
   lineVal,
   vector,
   vectorModule,
-} from "./utils.js";
+} = require("./utils.js");
+
 
 const ARC_ROTATE = 0.5 + Math.PI / 3;
 const ROTATE = 0.5;
@@ -14,7 +15,11 @@ const ARROW_LENGTH = 15;
 
 const drawOnlyVertex = (coords, i, ctx, radius, colorName) => {
   ctx.beginPath();
-  ctx.arc(coords.xCoord[i], coords.yCoord[i], radius, 0, Math.PI * 2);
+  ctx.arc(
+    coords.xCoord[i],
+    coords.yCoord[i], radius,
+    0,
+    Math.PI * 2); // full circle
   ctx.strokeStyle = colorName;
   ctx.stroke();
   ctx.fillStyle = "white";
@@ -29,9 +34,9 @@ const drawStatus = (coords, i, ctx, radius, colorName, status) => {
   ctx.arc(
     coords.xCoord[i] + radius,
     coords.yCoord[i] - radius,
-    radius / 3,
+    radius / 3, // the radius of the status is at 3 times smaller than the radius of the vertex
     0,
-    Math.PI * 2,
+    Math.PI * 2, // full circle
   );
   ctx.strokeStyle = colorName;
   ctx.stroke();
@@ -66,7 +71,7 @@ const drawStitch = (coords, i, ctx, radius, colorName) => {
     coords.yCoord[i] - radius,
     radius,
     0,
-    Math.PI / 2,
+    Math.PI / 2, // full circle
     true,
   );
   ctx.stroke();
@@ -197,11 +202,11 @@ const drawCondVertex = (coords, i, radius, ctx) => {
   ctx.closePath();
 };
 
-export {
+module.exports = {
   drawCondVertex,
   drawVertexes,
   drawEdge,
   drawLine,
   drawArrow,
   drawEllipse,
-};
+}

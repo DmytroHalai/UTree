@@ -1,27 +1,36 @@
 "use strict";
 
-import {
+const {
   convertMatrixToString,
   reachMatrix,
   strongMatrix,
   undirMatrix,
-} from "./matrix.js";
-import {
+} = require("./matrix.js");
+const {
   calculateAngle,
   checkRepeat,
   findVertexCoord,
   lineVal,
-} from "./utils.js";
-import {
+} = require("./utils.js");
+const {
   drawCondVertex,
   drawVertexes,
   drawEdge,
   drawEllipse,
   drawArrow,
   drawLine,
-} from "./draw.js";
-import { findComponents } from "./findComponents.js";
+} = require("./draw.js");
+const { findComponents } = require("./findComponents.js");
 
+
+/**
+ * This method draws directed graph
+ * @param {number} x The X-coordinate of the start of drawing
+ * @param {number} y The X-coordinate of the start of drawing
+ * @param {[[]]} matrix Adjacency matrix of the graph
+ * @param {context} ctx Canvas 2d context
+ * @param {number} radius Radius of the vertexes
+ */
 const drawDirGraph = (x, y, matrix, ctx, radius) => {
   const count = matrix.length;
   const coords = findVertexCoord(count, x, y);
@@ -35,6 +44,14 @@ const drawDirGraph = (x, y, matrix, ctx, radius) => {
   }
 };
 
+/**
+ * This method draws directed graph
+ * @param {number} x The X-coordinate of the start of drawing
+ * @param {number} y The X-coordinate of the start of drawing
+ * @param {[[]]} matrix Adjacency matrix of the graph
+ * @param {context} ctx Canvas 2d context
+ * @param {number} radius Radius of the vertexes
+ */
 const drawUndirGraph = (x, y, matrix, ctx, radius) => {
   const count = matrix.length;
   const coords = findVertexCoord(count, x, y);
@@ -49,6 +66,14 @@ const drawUndirGraph = (x, y, matrix, ctx, radius) => {
   }
 };
 
+/**
+ * This method draws condensation graph of your graph
+ * @param {number} x The X-coordinate of the start of drawing
+ * @param {number} y The X-coordinate of the start of drawing
+ * @param {[[]]} matrix Adjacency matrix of the graph
+ * @param {context} ctx Canvas 2d context
+ * @param {number} radius Radius of the vertexes
+ */
 const drawCondGraph = (x, y, matrix, ctx, radius) => {
   const foundComp = findComponents(
     convertMatrixToString(strongMatrix(reachMatrix(matrix))),
@@ -108,4 +133,8 @@ const drawCondGraph = (x, y, matrix, ctx, radius) => {
   });
 };
 
-export { drawDirGraph, drawCondGraph, drawUndirGraph };
+module.exports = {
+  drawDirGraph,
+  drawCondGraph,
+  drawUndirGraph,
+}

@@ -1,6 +1,6 @@
 "use strict";
 
-import { cubeMatrix, squareMatrix } from "./matrix.js";
+const { cubeMatrix, squareMatrix } = require("./matrix.js");
 
 const findWays2 = (matrix) => {
   let result = [];
@@ -42,4 +42,18 @@ const findWays3 = (matrix) => {
   return result;
 };
 
-export { findWays2, findWays3 };
+/**
+ * This method finds ways in the graph
+ * @param {[[]]} matrix Adjacency matrix of the graph.
+ * @param {number} power Equals 2 to find ways length 2 or 3 to find ways length 3
+ * @returns {[]} array of the whole ways of the chosen length
+ */
+const findWay = (matrix, power) => {
+  const collection = new Map();
+  collection.set(2, findWays2(matrix));
+  collection.set(3, findWays3(matrix));
+
+  return collection.get(power);
+}
+
+module.exports = { findWay };

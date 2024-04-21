@@ -1,7 +1,12 @@
 "use strict";
 
-import { findDirMatrixPower } from "./vertexPower.js";
+const { findDirMatrixPower } = require("./vertexPower.js");
 
+/**
+ * This method checks if the graph is regular.
+ * @param {[[]]} matrix Adjacency matrix of the graph.
+ * @returns {boolean} true if graph is regular and false if not
+ */
 const isRegular = (matrix) => {
   const powerDir = findDirMatrixPower(matrix);
   const val = powerDir[0];
@@ -13,4 +18,5 @@ const isRegular = (matrix) => {
   return true;
 };
 
-export { isRegular };
+
+module.exports = { isRegular };

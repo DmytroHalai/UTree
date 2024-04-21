@@ -1,7 +1,12 @@
 "use strict";
 
-import { convertMatrixToString, reachMatrix, strongMatrix } from "./matrix.js";
+const { convertMatrixToString, reachMatrix, strongMatrix } = require("./matrix.js");
 
+/**
+ * This method finds components of the graph
+ * @param {[[]]} matrix Adjacency matrix of the graph
+ * @returns {Object} The object, which consists of the arrays
+ */
 const findComponents = (matrix) => {
   const result = {};
   const valueToIndexMap = {};
@@ -23,4 +28,5 @@ const findComponents = (matrix) => {
   return result;
 };
 
-export { findComponents };
+
+module.exports = { findComponents };
