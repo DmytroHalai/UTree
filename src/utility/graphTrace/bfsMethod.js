@@ -1,34 +1,23 @@
 "use strict";
 
-import { Queue } from "./classes.js";
-
 const bfs = (matrix, a) => {
-  const count = matrix.length;
-  const checked = 1,
-    unChecked = 0;
-  const bfsMatrix = new Array(count).fill(unChecked);
-  const q = new Queue();
-  const checkNumbers = new Array(count).fill(unChecked);
-  let pointer = 0;
-  let checkNumber = 1;
-  bfsMatrix.forEach((value, index) => {
-    bfsMatrix[index] = new Array(count).fill(unChecked);
-  });
-  checkNumbers[a] = checked;
-  q.enqueue(a);
-  while (!q.isEmpty()) {
-    const v = q.dequeue();
-    for (let u = 0; u < count; u++) {
-      if (matrix[v][u] === 1 && checkNumbers[u] === unChecked) {
-        checkNumber++;
-        bfsMatrix[v][u] = 1;
-        checkNumbers[u] = checkNumber;
-        q.enqueue(u);
+  const { length } = matrix;
+  const bfsMatrix = Array.from({ length}, () => new Array(length).fill(0))
+  const q = [];
+  const path = new Array(length).fill(false);
+  path[a] = true;
+  q.push(a);
+  while (q.length) {
+    const vertex = q.at(0);
+    for (let u = 0; u < length; u++) {
+      if (matrix[vertex][u] && !path[u]) {
+        bfsMatrix[vertex][u] = 1;
+        path.push(u)
+        q.push(u);
       }
     }
-    pointer++;
   }
-  return { bfsMatrix, checkNumbers };
+  return { bfsMatrix, checkNumbers: path };
 };
 
 export { bfs };
