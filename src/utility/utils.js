@@ -1,11 +1,9 @@
 "use strict";
 
 const vector = (x1, y1, x2, y2) => {
-  const x = x2 - x1,
-    y = y2 - y1;
   return {
-    x: x,
-    y: y,
+    x: x2 - x1,
+    y: y2 - y1,
   };
 };
 
@@ -89,12 +87,16 @@ const findVertexCoord = (
     1: vertexesPerSide,
     2: vertexesPerSide,
     3: vertexesPerSide,
-    4: vertexesPerSide + (vertexCount % vertexesPerSide),
+    4: (vertexCount - vertexesPerSide * 3),
   };
+  console.log(vertexAmount);
   let pointer = 1;
   const heightInterval = ctxHeight / vertexesPerSide,
     weightInterval = ctxWeight / vertexesPerSide,
     lastSideInterval = ctxHeight / vertexAmount["4"];
+  console.log(heightInterval);
+  console.log(weightInterval);
+  console.log(lastSideInterval);
   coords.xCoord[0] = firstCoordX;
   coords.yCoord[0] = firstCoordY;
 

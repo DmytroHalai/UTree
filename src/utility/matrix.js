@@ -4,37 +4,25 @@ const { pseudoRandom } =  require("./utils.js");
 
 const createDirMatrix = (count) => {
   const generator = pseudoRandom(count);
-  let matrix = new Array(count);
-  for (let i = 0; i < count; i++) {
-    matrix[i] = new Array(count);
-  }
-  for (let i = 0; i < count; i++) {
-    for (let j = 0; j < count; j++) {
-      matrix[i][j] = Math.floor(generator() * 1);
-    }
-  }
-  return matrix;
+  let matrix = Array.from({ length: count },
+    () => Array(count).fill(0));
+  return matrix.map((value) => value.map(
+    () => Math.floor(generator() * 1)
+  ));
 };
 
-const undirMatrix = (arr) => {
-  let matrix = arr;
-  for (let i = 0; i < matrix.length; i++) {
-    for (let j = 0; j < matrix[i].length; j++) {
-      if (matrix[i][j] === 1) {
-        matrix[j][i] = 1;
-      }
-    }
-  }
-  return matrix;
+const undirMatrix = (matrix) => {
+  return matrix.map((value, i) => value.map((value1, j) => matrix[j][i] ? 1 : 0));
 };
 
 const multMatrix = (matrix1, matrix2) => {
   const { length } = matrix1;
-  let result = Array.from({ length }, () => new Array(length));
-  for (let i = 0; i < matrix1[0].length; i++) {
-    for (let j = 0; j < matrix1[0].length; j++) {
+  let result = Array.from({ length },
+    () => new Array(length));
+  for (let i = 0; i < length; i++) {
+    for (let j = 0; j < length; j++) {
       let res = 0;
-      for (let k = 0; k < matrix1[0].length; k++) {
+      for (let k = 0; k < length; k++) {
         res += matrix1[i][k] * matrix2[k][j];
       }
       result[i][j] = res;
@@ -43,13 +31,13 @@ const multMatrix = (matrix1, matrix2) => {
   return result;
 };
 
-const squareMatrix = (matrix) => {
-  return multMatrix(matrix, matrix);
-};
-
-const cubeMatrix = (matrix) => {
-  return multMatrix(matrix, multMatrix(matrix, matrix));
-};
+const powerMatrix = (matrix, num) => {
+  let temp = [];
+  if (num === 1) return matrix;
+  num--;
+  temp = powerMatrix(matrix, num);
+  return multMatrix(matrix, temp);
+}
 
 const reachMatrix = (matrix) => {
   const { length } = matrix;
@@ -66,13 +54,12 @@ const reachMatrix = (matrix) => {
     for (let j = 0; j < length; j++) {
       let val = false;
       for (let key in matrixObject) {
-        if (matrixObject[key][i][j] > 0) {
+        if (matrixObject[key][i][j]) {
           val = true;
           break;
         }
       }
-      if (val || i === j) result[i][j] = 1;
-      else result[i][j] = 0;
+      result[i][j] = val || i === j ? 1 : 0;
     }
   }
   return result;
@@ -80,10 +67,8 @@ const reachMatrix = (matrix) => {
 
 const transMatrix = (matrix) => {
   const { length } = matrix;
-  let result = new Array(length);
-  for (let i = 0; i < length; i++) {
-    result[i] = new Array(length).fill(0);
-  }
+  let result = Array.from({ length },
+    () => Array(length).fill(0));
   for (let i = 0; i < length; i++) {
     for (let j = 0; j < length; j++) {
       result[i][j] = matrix[j][i];
@@ -107,19 +92,16 @@ const strongMatrix = (matrix) => {
 };
 
 const convertMatrixToString = (matrix) => {
-  let result = {};
-  matrix.forEach((row, index) => (result[index] = row.join("")));
-  return result;
+  return matrix.map((row, i) => row[i] = row.join(""));
 };
 
 module.exports = {
   createDirMatrix,
   convertMatrixToString,
-  cubeMatrix,
   multMatrix,
   reachMatrix,
-  squareMatrix,
   strongMatrix,
   undirMatrix,
   transMatrix,
+  powerMatrix,
 }

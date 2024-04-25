@@ -5,16 +5,17 @@ const { findDirMatrixPower } = require("./vertexPower.js");
 
 const isolAndHangingVertexes = (matrix) => {
   const powerArr = findDirMatrixPower(matrix);
+  const { length } = powerArr;
   let result = {
     isolResult: [],
     hangResult: [],
   };
-  for (let i = 0; i < powerArr.length; i++) {
-    if (powerArr[i] === 1) {
-      result.hangResult.push(i + 1);
-    } else if (powerArr[i] === 0) {
-      result.isolResult.push(i + 1);
-    }
+  for (let i = 0; i < length; i++) {
+      if (powerArr[i] === 1) {
+        result.hangResult.push(i + 1);
+      } else if (!powerArr[i]) {
+        result.isolResult.push(i + 1);
+      }
   }
   return result;
 };

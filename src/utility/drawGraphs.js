@@ -22,7 +22,6 @@ const {
 } = require("./draw.js");
 const { findComponents } = require("./findComponents.js");
 
-
 /**
  * This method draws directed graph
  * @param {number} x The X-coordinate of the start of drawing
@@ -30,15 +29,16 @@ const { findComponents } = require("./findComponents.js");
  * @param {[[]]} matrix Adjacency matrix of the graph
  * @param {context} ctx Canvas 2d context
  * @param {number} radius Radius of the vertexes
+ * @param color The color of the graph
  */
-const drawDirGraph = (x, y, matrix, ctx, radius) => {
+const drawDirGraph = (x, y, matrix, ctx, radius, color = 'black') => {
   const count = matrix.length;
   const coords = findVertexCoord(count, x, y);
   drawVertexes(ctx, count, x, y, radius);
   for (let i = 0; i < count; i++) {
     for (let j = 0; j < count; j++) {
       if (matrix[i][j] === 1) {
-        drawEdge(coords, i, j, matrix, ctx, radius, "black", true, false);
+        drawEdge(coords, i, j, matrix, ctx, radius, color, true, false);
       }
     }
   }
@@ -51,8 +51,9 @@ const drawDirGraph = (x, y, matrix, ctx, radius) => {
  * @param {[[]]} matrix Adjacency matrix of the graph
  * @param {context} ctx Canvas 2d context
  * @param {number} radius Radius of the vertexes
+ * @param color Color of the graph
  */
-const drawUndirGraph = (x, y, matrix, ctx, radius) => {
+const drawUndirGraph = (x, y, matrix, ctx, radius, color = 'black') => {
   const count = matrix.length;
   const coords = findVertexCoord(count, x, y);
   matrix = undirMatrix(matrix);
@@ -60,7 +61,7 @@ const drawUndirGraph = (x, y, matrix, ctx, radius) => {
   for (let i = 0; i < count; i++) {
     for (let j = 0; j <= i; j++) {
       if (matrix[i][j] === 1) {
-        drawEdge(coords, i, j, matrix, ctx, radius, "black", false, false);
+        drawEdge(coords, i, j, matrix, ctx, radius, color, false, false);
       }
     }
   }
@@ -73,8 +74,9 @@ const drawUndirGraph = (x, y, matrix, ctx, radius) => {
  * @param {[[]]} matrix Adjacency matrix of the graph
  * @param {context} ctx Canvas 2d context
  * @param {number} radius Radius of the vertexes
+ * @param color Color of the graph
  */
-const drawCondGraph = (x, y, matrix, ctx, radius) => {
+const drawCondGraph = (x, y, matrix, ctx, radius, color = 'black') => {
   const foundComp = findComponents(
     convertMatrixToString(strongMatrix(reachMatrix(matrix))),
   );
@@ -119,7 +121,7 @@ const drawCondGraph = (x, y, matrix, ctx, radius) => {
       const valid = lineVal(condCoords, val.start[i], val.end[i], radius);
       if (valid !== null) {
         drawEllipse(condCoords, val.start[i], val.end[i], angle, ctx, radius);
-        drawArrow(condCoords, val.end[i], angle, radius, ctx, "black", 1);
+        drawArrow(condCoords, val.end[i], angle, radius, ctx, color, 1);
       } else {
         drawLine(condCoords, val.start[i], val.end[i], ctx);
         drawArrow(condCoords, val.end[i], angle, radius, ctx);

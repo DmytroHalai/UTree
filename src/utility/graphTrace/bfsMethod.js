@@ -2,7 +2,7 @@
 
 const bfs = (matrix, startVertex) => {
   const { length } = matrix;
-  const bfsMatrix = Array.from({ length}, () => new Array(length).fill(0))
+  const bfsMatrix = Array.from({ length }, () => new Array(length).fill(0))
   const q = [];
   const path = [];
   const queue = new Array(length).fill(false);

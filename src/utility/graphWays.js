@@ -1,16 +1,16 @@
 "use strict";
 
-const { cubeMatrix, squareMatrix } = require("./matrix.js");
+const { powerMatrix } = require("./matrix.js");
 
 const findWays2 = (matrix) => {
   let result = [];
-  const sqrMatrix = squareMatrix(matrix);
-  const count = sqrMatrix[0].length;
-  for (let i = 0; i < count; i++) {
-    for (let j = 0; j < count; j++) {
-      if (sqrMatrix[i][j] === 0) continue;
-      for (let k = 0; k < count; k++) {
-        if (matrix[k][j] === 1 && matrix[i][k] === 1 && (k !== j || k !== i)) {
+  const sqrMatrix = powerMatrix(matrix, 2);
+  const { length } = sqrMatrix;
+  for (let i = 0; i < length; i++) {
+    for (let j = 0; j < length; j++) {
+      if (!sqrMatrix[i][j]) continue;
+      for (let k = 0; k < length; k++) {
+        if (matrix[k][j] && matrix[i][k] && (k !== j || k !== i)) {
           result.push([i + 1, k + 1, j + 1]);
         }
       }
@@ -21,16 +21,16 @@ const findWays2 = (matrix) => {
 
 const findWays3 = (matrix) => {
   let result = [];
-  const cbMatrix = cubeMatrix(matrix);
-  const count = cbMatrix[0].length;
-  for (let i = 0; i < count; i++) {
-    for (let j = 0; j < count; j++) {
-      if (cbMatrix[i][j] === 0) continue;
-      for (let k = 0; k < count; k++) {
-        if (matrix[i][k] === 1) {
-          for (let f = 0; f < count; f++) {
-            if (matrix[f][j] === 1) {
-              if (matrix[k][f] === 1 && k !== f) {
+  const cbMatrix = powerMatrix(matrix, 3);
+  const { length } = cbMatrix;
+  for (let i = 0; i < length; i++) {
+    for (let j = 0; j < length; j++) {
+      if (!cbMatrix[i][j]) continue;
+      for (let k = 0; k < length; k++) {
+        if (matrix[i][k]) {
+          for (let f = 0; f < length; f++) {
+            if (matrix[f][j]) {
+              if (matrix[k][f] && k !== f) {
                 result.push([i + 1, k + 1, f + 1, j + 1]);
               }
             }
