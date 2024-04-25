@@ -1,11 +1,11 @@
 "use strict";
 
 /**
- * This method makes startVertex trace around the graph be the DFS-method
+ * This method makes startVertex trace around the graph be the DFS-method.
  * @param {[[]]} matrix Adjacency matrix of the graph.
- * @param {number} startVertex The vertex, from which the tracing will be started
- * @returns {Object} Array
- * of the numbers under which vertexes were checked and adjacency matrix of the graph after tracing
+ * @param {number} startVertex The vertex, from which the tracing will be started.
+ * @returns {Object} The result of tracing and dfs matrix.
+ * of the numbers under which vertexes were checked and adjacency matrix of the graph after tracing.
  */
 const dfs = (matrix, startVertex) => {
   const { length } = matrix;

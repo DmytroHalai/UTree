@@ -1,11 +1,12 @@
 "use strict";
 
 const findUndirMatrixPower = (matrix) => {
+  const { length } = matrix;
   const result = [];
-  for (let i = 0; i < matrix[0].length; i++) {
+  for (let i = 0; i < length; i++) {
     let counter = 0;
-    for (let j = 0; j < matrix[0].length; j++) {
-      if (matrix[i][j] === 1) {
+    for (let j = 0; j < length; j++) {
+      if (matrix[i][j]) {
         if (i === j) counter++;
         counter++;
       }
@@ -16,11 +17,12 @@ const findUndirMatrixPower = (matrix) => {
 };
 
 const findDirMatrixPower = (matrix) => {
+  const { length } = matrix;
   const result = [];
-  for (let i = 0; i < matrix[0].length; i++) {
+  for (let i = 0; i < length; i++) {
     let counter = 0;
-    for (let j = 0; j < matrix[0].length; j++) {
-      if (matrix[i][j] === 1 || matrix[j][i] === 1) {
+    for (let j = 0; j < length; j++) {
+      if (matrix[i][j] || matrix[j][i]) {
         if (i === j) counter++;
         counter++;
       }
@@ -31,11 +33,12 @@ const findDirMatrixPower = (matrix) => {
 };
 
 const findDirMatrixEnterPower = (matrix) => {
+  const { length } = matrix;
   const result = [];
-  for (let i = 0; i < matrix[0].length; i++) {
+  for (let i = 0; i < length; i++) {
     let counter = 0;
-    for (let j = 0; j < matrix[0].length; j++) {
-      if (matrix[j][i] === 1) {
+    for (let j = 0; j < length; j++) {
+      if (matrix[j][i]) {
         counter++;
       }
     }
@@ -45,11 +48,12 @@ const findDirMatrixEnterPower = (matrix) => {
 };
 
 const findDirMatrixExitPower = (matrix) => {
+  const { length } = matrix;
   const result = [];
-  for (let i = 0; i < matrix[0].length; i++) {
+  for (let i = 0; i < length; i++) {
     let counter = 0;
-    for (let j = 0; j < matrix[0].length; j++) {
-      if (matrix[i][j] === 1) {
+    for (let j = 0; j < length; j++) {
+      if (matrix[i][j]) {
         counter++;
       }
     }
@@ -60,7 +64,7 @@ const findDirMatrixExitPower = (matrix) => {
 
 /**
  *This method finds powers of vertexes.
- * @param {[[]]} matrix Adjacency matrix of the graph
+ * @param {[[]]} matrix Adjacency matrix of the graph.
  * @returns {{dir: [], undir: [], dirEnter: [], dirExit: [], }} an object
  * which fields are arrays of powers for each vertex.
  */

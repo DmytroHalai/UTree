@@ -14,28 +14,28 @@ const vectorModule = (vector) => {
 const pseudoRandom = (seed) => {
   let value = seed;
 
-  return function () {
-    value = (value * 1103515245 + 12345) % 2147483648;
-    return value % 100 < 25;
-  };
+  return function() {
+    value = (value * 11 + 4) % 13;
+    return value * 0.11 % 2;
+  }
 };
 
 const createCoordsCollection = (
   coords,
   i,
   action,
-  weightInterval,
-  heightInterval,
-  lastSideInterval,
+  weight,
+  height,
+  last,
 ) => {
   const previous = i - 1;
-  action(coords, i, previous, weightInterval, heightInterval, lastSideInterval);
+  action(coords, i, previous, weight, height, last);
 };
 
 const findVertexCoord = (
-  vertexCount,
-  firstCoordX,
-  firstCoordY,
+  count,
+  x,
+  y,
   ctxHeight,
   ctxWeight,
 ) => {
@@ -82,12 +82,12 @@ const findVertexCoord = (
     ],
   ]);
 
-  const vertexesPerSide = Math.floor(vertexCount / 4); // 4 is amount of sides in rectangle
+  const vertexesPerSide = Math.floor(count / 4); // 4 is amount of sides in rectangle
   const vertexAmount = {
     1: vertexesPerSide,
     2: vertexesPerSide,
     3: vertexesPerSide,
-    4: (vertexCount - vertexesPerSide * 3),
+    4: (count - vertexesPerSide * 3),
   };
   console.log(vertexAmount);
   let pointer = 1;
@@ -97,10 +97,10 @@ const findVertexCoord = (
   console.log(heightInterval);
   console.log(weightInterval);
   console.log(lastSideInterval);
-  coords.xCoord[0] = firstCoordX;
-  coords.yCoord[0] = firstCoordY;
+  coords.xCoord[0] = x;
+  coords.yCoord[0] = y;
 
-  for (let i = 1; i < vertexCount; i++) {
+  for (let i = 1; i < count; i++) {
     createCoordsCollection(
       coords,
       i,
@@ -122,7 +122,7 @@ const lineVal = (coords, i, j, radius) => {
   const endY = coords.yCoord[j];
   const vector1 = vector(startX, startY, endX, endY);
   const a = vectorModule(vector1);
-  let valResult = null;
+  let valResult = false;
   for (let k = 0; k < coords.xCoord.length; k++) {
     if (k === i || k === j) continue;
     if (Math.abs(j - i) === 1) break;
@@ -132,10 +132,8 @@ const lineVal = (coords, i, j, radius) => {
     const c = vectorModule(vector3);
     const p = (a + b + c) / 2;
     const height = (Math.sqrt(p * (p - a) * (p - b) * (p - c)) * 2) / a;
-    if (height < radius) {
-      valResult = a;
-      break;
-    }
+    valResult = height < radius;
+    if (valResult) break;
   }
   return valResult;
 };
@@ -153,9 +151,7 @@ const checkRepeat = (val, i) => {
     endC = val.end[i];
   let result = true;
   for (let j = 0; j < val.start.length; j++) {
-    if (startC === val.start[j] && endC === val.end[j] && j > i) {
-      result = false;
-    }
+    result = !(startC === val.start[j] && endC === val.end[j] && j > i);
   }
   return result;
 };

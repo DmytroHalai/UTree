@@ -37,8 +37,13 @@ const powerMatrix = (matrix, num) => {
   num--;
   temp = powerMatrix(matrix, num);
   return multMatrix(matrix, temp);
-}
+};
 
+/**
+ * This method finds reach matrix for your graph
+ * @param matrix Adjacency matrix
+ * @returns {any[][]} Reach matrix
+ */
 const reachMatrix = (matrix) => {
   const { length } = matrix;
   let matrixObject = {
@@ -76,7 +81,11 @@ const transMatrix = (matrix) => {
   }
   return result;
 };
-
+/**
+ * This method finds a strong connectivity matrix for your graph
+ * @param matrix Adjacency matrix
+ * @returns {any[][]} Strong connectivity matrix
+ */
 const strongMatrix = (matrix) => {
   const { length } = matrix;
   const reach = reachMatrix(matrix);

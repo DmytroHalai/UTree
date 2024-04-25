@@ -1,5 +1,11 @@
 "use strict";
 
+/**
+ * This method makes a trace of your graph.
+ * @param matrix Adjacency matrix.
+ * @param startVertex The vertex trace will be started at.
+ * @returns {{path: *[], bfsMatrix: any[][]}} The path of the tracing and bfs matrix.
+ */
 const bfs = (matrix, startVertex) => {
   const { length } = matrix;
   const bfsMatrix = Array.from({ length }, () => new Array(length).fill(0))

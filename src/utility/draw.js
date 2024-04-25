@@ -176,7 +176,7 @@ const drawEdge = (
   if (v === u) {
     drawStitch(coords, v, ctx, radius, colorName);
     if (isDir) drawArrow(coords, u, angle, radius, ctx, colorName, false);
-  } else if (matrix[u][v] === 1 && v > u) {
+  } else if (matrix[u][v] && v > u) {
     drawEllipse(coords, v, u, angle, ctx, radius, colorName);
     if (isDir) drawArrow(coords, u, angle, radius, ctx, colorName, true);
   } else if (val) {

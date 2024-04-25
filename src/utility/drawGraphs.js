@@ -23,13 +23,13 @@ const {
 const { findComponents } = require("./findComponents.js");
 
 /**
- * This method draws directed graph
- * @param {number} x The X-coordinate of the start of drawing
- * @param {number} y The X-coordinate of the start of drawing
- * @param {[[]]} matrix Adjacency matrix of the graph
- * @param {context} ctx Canvas 2d context
- * @param {number} radius Radius of the vertexes
- * @param color The color of the graph
+ * This method draws directed graph.
+ * @param {number} x The X-coordinate of the start of drawing.
+ * @param {number} y The X-coordinate of the start of drawing.
+ * @param {[[]]} matrix Adjacency matrix of the graph.
+ * @param {context} ctx Canvas 2d context.
+ * @param {number} radius Radius of the vertexes.
+ * @param color The color of the graph.
  */
 const drawDirGraph = (x, y, matrix, ctx, radius, color = 'black') => {
   const count = matrix.length;
@@ -45,13 +45,13 @@ const drawDirGraph = (x, y, matrix, ctx, radius, color = 'black') => {
 };
 
 /**
- * This method draws directed graph
- * @param {number} x The X-coordinate of the start of drawing
- * @param {number} y The X-coordinate of the start of drawing
- * @param {[[]]} matrix Adjacency matrix of the graph
- * @param {context} ctx Canvas 2d context
- * @param {number} radius Radius of the vertexes
- * @param color Color of the graph
+ * This method draws directed graph.
+ * @param {number} x The X-coordinate of the start of drawing.
+ * @param {number} y The X-coordinate of the start of drawing.
+ * @param {[[]]} matrix Adjacency matrix of the graph.
+ * @param {context} ctx Canvas 2d context.
+ * @param {number} radius Radius of the vertexes.
+ * @param color Color of the graph.
  */
 const drawUndirGraph = (x, y, matrix, ctx, radius, color = 'black') => {
   const count = matrix.length;
@@ -60,7 +60,7 @@ const drawUndirGraph = (x, y, matrix, ctx, radius, color = 'black') => {
   drawVertexes(ctx, count, x, y, radius);
   for (let i = 0; i < count; i++) {
     for (let j = 0; j <= i; j++) {
-      if (matrix[i][j] === 1) {
+      if (matrix[i][j]) {
         drawEdge(coords, i, j, matrix, ctx, radius, color, false, false);
       }
     }
