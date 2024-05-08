@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * This method makes startVertex trace around the graph be the DFS-method.
@@ -16,11 +16,13 @@ const dfs = (matrix, startVertex) => {
   let returns = false;
   visited[startVertex] = true;
   while (stack.length) {
-    const vertex = stack.at(-1);
+    const last = -1;
+    const vertex = stack.at(last);
     if (returns) path.push(vertex);
     let flag = false;
     for (let i = 0; i < length; i++) {
-      if (!matrix[vertex][i] || visited[i]) continue;
+      const hasConnect = matrix[vertex][i];
+      if (!hasConnect || visited[i]) continue;
       returns = false;
       stack.push(i);
       path.push(i);
@@ -36,6 +38,5 @@ const dfs = (matrix, startVertex) => {
   }
   return { path, dfsMatrix };
 };
-
 
 module.exports = { dfs };

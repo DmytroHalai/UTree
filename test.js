@@ -1,23 +1,28 @@
-"use strict";
+'use strict';
 
-const { createDirMatrix, powerMatrix, convertMatrixToString } = require('./src/utility/matrix');
+const {
+  createDirMatrix,
+  powerMatrix,
+  convertMatrixToString,
+} = require('./src/matrix');
 
-// const matrix2 = [
-//   [1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
-//   [0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
-//   [0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
-//   [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-//   [0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
-// ];
+const matrix2 = [
+  [1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+  [0, 0, 1, 0, 0, 0, 1, 1, 0, 0],
+  [0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+  [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+  [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+  [0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+];
 
 const matrix = createDirMatrix(10);
-console.table(powerMatrix(matrix, 3));
-console.table(convertMatrixToString(matrix));
+console.table(matrix);
+console.table(powerMatrix(matrix2, 3));
+console.table(convertMatrixToString(matrix2));
 //const way2 = findWay(matrix, 2);
 //const way3 = findWay(matrix, 3);
 // console.table(way2);

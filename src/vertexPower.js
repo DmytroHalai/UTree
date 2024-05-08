@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const findUndirMatrixPower = (matrix) => {
   const { length } = matrix;
@@ -83,4 +83,4 @@ module.exports = {
   findUndirMatrixPower,
   findDirMatrixEnterPower,
   findDirMatrixExitPower,
-}
+};

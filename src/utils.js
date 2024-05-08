@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const vector = (x1, y1, x2, y2) => {
   return {
@@ -11,34 +11,12 @@ const vectorModule = (vector) => {
   return Math.sqrt(vector.x * vector.x + vector.y * vector.y);
 };
 
-const pseudoRandom = (seed) => {
-  let value = seed;
-
-  return function() {
-    value = (value * 11 + 4) % 13;
-    return value * 0.11 % 2;
-  }
-};
-
-const createCoordsCollection = (
-  coords,
-  i,
-  action,
-  weight,
-  height,
-  last,
-) => {
+const createCoordsCollection = (coords, i, action, weight, height, last) => {
   const previous = i - 1;
   action(coords, i, previous, weight, height, last);
 };
 
-const findVertexCoord = (
-  count,
-  x,
-  y,
-  ctxHeight,
-  ctxWeight,
-) => {
+const findVertexCoord = (count, x, y, ctxHeight, ctxWeight) => {
   let coords = {
     xCoord: [],
     yCoord: [],
@@ -87,13 +65,13 @@ const findVertexCoord = (
     1: vertexesPerSide,
     2: vertexesPerSide,
     3: vertexesPerSide,
-    4: (count - vertexesPerSide * 3),
+    4: count - vertexesPerSide * 3,
   };
   console.log(vertexAmount);
   let pointer = 1;
   const heightInterval = ctxHeight / vertexesPerSide,
     weightInterval = ctxWeight / vertexesPerSide,
-    lastSideInterval = ctxHeight / vertexAmount["4"];
+    lastSideInterval = ctxHeight / vertexAmount['4'];
   console.log(heightInterval);
   console.log(weightInterval);
   console.log(lastSideInterval);
@@ -159,10 +137,9 @@ const checkRepeat = (val, i) => {
 module.exports = {
   vector,
   vectorModule,
-  pseudoRandom,
   createCoordsCollection,
   findVertexCoord,
   lineVal,
   calculateAngle,
   checkRepeat,
-}
+};

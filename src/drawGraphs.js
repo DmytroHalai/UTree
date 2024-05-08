@@ -1,17 +1,17 @@
-"use strict";
+'use strict';
 
 const {
   convertMatrixToString,
   reachMatrix,
   strongMatrix,
   undirMatrix,
-} = require("./matrix.js");
+} = require('./matrix.js');
 const {
   calculateAngle,
   checkRepeat,
   findVertexCoord,
   lineVal,
-} = require("./utils.js");
+} = require('./utils.js');
 const {
   drawCondVertex,
   drawVertexes,
@@ -19,8 +19,8 @@ const {
   drawEllipse,
   drawArrow,
   drawLine,
-} = require("./draw.js");
-const { findComponents } = require("./findComponents.js");
+} = require('./draw.js');
+const { findComponents } = require('./findComponents.js');
 
 /**
  * This method draws directed graph.
@@ -38,7 +38,13 @@ const drawDirGraph = (x, y, matrix, ctx, radius, color = 'black') => {
   for (let i = 0; i < count; i++) {
     for (let j = 0; j < count; j++) {
       if (matrix[i][j] === 1) {
-        drawEdge(coords, i, j, matrix, ctx, radius, color, true, false);
+        const vertexInfo = {
+          startVer: i,
+          endVer: j,
+          radius: radius,
+          matrix: matrix,
+        };
+        drawEdge(coords, vertexInfo, ctx, color, true);
       }
     }
   }
@@ -61,7 +67,13 @@ const drawUndirGraph = (x, y, matrix, ctx, radius, color = 'black') => {
   for (let i = 0; i < count; i++) {
     for (let j = 0; j <= i; j++) {
       if (matrix[i][j]) {
-        drawEdge(coords, i, j, matrix, ctx, radius, color, false, false);
+        const vertexInfo = {
+          startVer: i,
+          endVer: j,
+          radius: radius,
+          matrix: matrix,
+        };
+        drawEdge(coords, vertexInfo, ctx, color, false);
       }
     }
   }
@@ -80,8 +92,8 @@ const drawCondGraph = (x, y, matrix, ctx, radius, color = 'black') => {
   const foundComp = findComponents(
     convertMatrixToString(strongMatrix(reachMatrix(matrix))),
   );
-  const count = matrix.length;
-  const coords = findVertexCoord(count, x, y);
+  const { length: matLength } = matrix;
+  const coords = findVertexCoord(matLength, x, y);
   let condCoords = {
       xCoord: [],
       yCoord: [],
@@ -98,12 +110,12 @@ const drawCondGraph = (x, y, matrix, ctx, radius, color = 'black') => {
     condCoords.yCoord.push(coords.yCoord[value[0]]);
     arr.push(value.map((value) => parseInt(value)));
   });
-
-  for (let i = 0; i < arr.length; i++) {
+  const { length: condArrayLength } = arr;
+  for (let i = 0; i < condArrayLength; i++) {
     for (let j = 0; j < arr[i].length; j++) {
-      for (let k = 0; k < matrix[0].length; k++) {
+      for (let k = 0; k < matLength; k++) {
         if (matrix[k][arr[i][j]] === 1 && arr[i][j] !== k) {
-          for (let h = 0; h < arr.length; h++) {
+          for (let h = 0; h < condArrayLength; h++) {
             const index = arr[h].indexOf(k);
             if (index >= 0 && h !== i) {
               val.start.push(h);
@@ -117,14 +129,16 @@ const drawCondGraph = (x, y, matrix, ctx, radius, color = 'black') => {
 
   for (let i = 0; i < val.start.length; i++) {
     if (checkRepeat(val, i)) {
-      const angle = calculateAngle(condCoords, val.start[i], val.end[i]);
-      const valid = lineVal(condCoords, val.start[i], val.end[i], radius);
+      const startVertex = val.start[i];
+      const endVertex = val.end[i];
+      const angle = calculateAngle(condCoords, startVertex, endVertex);
+      const valid = lineVal(condCoords, startVertex, endVertex, radius);
       if (valid !== null) {
-        drawEllipse(condCoords, val.start[i], val.end[i], angle, ctx, radius);
-        drawArrow(condCoords, val.end[i], angle, radius, ctx, color, 1);
+        drawEllipse(condCoords, startVertex, endVertex, angle, ctx, radius);
+        drawArrow(condCoords, startVertex, angle, radius, ctx, color, true);
       } else {
-        drawLine(condCoords, val.start[i], val.end[i], ctx);
-        drawArrow(condCoords, val.end[i], angle, radius, ctx);
+        drawLine(condCoords, startVertex, endVertex, ctx);
+        drawArrow(condCoords, startVertex, angle, radius, ctx, color);
       }
     }
   }
@@ -139,4 +153,4 @@ module.exports = {
   drawDirGraph,
   drawCondGraph,
   drawUndirGraph,
-}
+};
