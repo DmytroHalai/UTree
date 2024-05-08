@@ -1,7 +1,6 @@
-"use strict";
+'use strict';
 
-const { findDirMatrixPower } = require("./vertexPower.js");
-
+const { findDirMatrixPower } = require('./vertexPower.js');
 
 const isolAndHangingVertexes = (matrix) => {
   const powerArr = findDirMatrixPower(matrix);
@@ -11,11 +10,11 @@ const isolAndHangingVertexes = (matrix) => {
     hangResult: [],
   };
   for (let i = 0; i < length; i++) {
-      if (powerArr[i] === 1) {
-        result.hangResult.push(i + 1);
-      } else if (!powerArr[i]) {
-        result.isolResult.push(i + 1);
-      }
+    if (powerArr[i] === 1) {
+      result.hangResult.push(i + 1);
+    } else if (!powerArr[i]) {
+      result.isolResult.push(i + 1);
+    }
   }
   return result;
 };
@@ -37,6 +36,5 @@ const hangVertex = (matrix) => {
 const isolVertex = (matrix) => {
   return isolAndHangingVertexes(matrix).isolResult;
 };
-
 
 module.exports = { hangVertex, isolVertex };

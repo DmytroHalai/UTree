@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-const { powerMatrix } = require("./matrix.js");
+const { powerMatrix } = require('./matrix.js');
 
 const findWays2 = (matrix) => {
   let result = [];
@@ -54,6 +54,6 @@ const findWay = (matrix, power) => {
   collection.set(3, findWays3(matrix));
 
   return collection.get(power);
-}
+};
 
 module.exports = { findWay };

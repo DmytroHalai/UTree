@@ -1,6 +1,10 @@
-"use strict";
+'use strict';
 
-const { convertMatrixToString, reachMatrix, strongMatrix } = require("./matrix.js");
+const {
+  convertMatrixToString,
+  reachMatrix,
+  strongMatrix,
+} = require('./matrix.js');
 
 /**
  * This method finds components of the graph
@@ -27,6 +31,5 @@ const findComponents = (matrix) => {
 
   return result;
 };
-
 
 module.exports = { findComponents };

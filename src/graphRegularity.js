@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-const { findDirMatrixPower } = require("./vertexPower.js");
+const { findDirMatrixPower } = require('./vertexPower.js');
 
 /**
  * This method checks if the graph is regular.
@@ -16,6 +16,5 @@ const isRegular = (matrix) => {
   }
   return result;
 };
-
 
 module.exports = { isRegular };
