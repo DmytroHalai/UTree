@@ -3,11 +3,13 @@
 const findUndirMatrixPower = (matrix) => {
   const { length } = matrix;
   const result = [];
-  for (let i = 0; i < length; i++) {
+  for (let row = 0; row < length; row++) {
     let counter = 0;
-    for (let j = 0; j < length; j++) {
-      if (matrix[i][j]) {
-        if (i === j) counter++;
+    for (let col = 0; col < length; col++) {
+      const hasConnect = matrix[row][col] === 1;
+      const isStitch = col === row;
+      if (hasConnect) {
+        if (isStitch) counter++;
         counter++;
       }
     }
@@ -19,11 +21,13 @@ const findUndirMatrixPower = (matrix) => {
 const findDirMatrixPower = (matrix) => {
   const { length } = matrix;
   const result = [];
-  for (let i = 0; i < length; i++) {
+  for (let row = 0; row < length; row++) {
     let counter = 0;
-    for (let j = 0; j < length; j++) {
-      if (matrix[i][j] || matrix[j][i]) {
-        if (i === j) counter++;
+    for (let col = 0; col < length; col++) {
+      const hasConnect = matrix[row][col] === 1 || matrix[col][row] === 1;
+      const isStitch = col === row;
+      if (hasConnect) {
+        if (isStitch) counter++;
         counter++;
       }
     }
@@ -35,10 +39,11 @@ const findDirMatrixPower = (matrix) => {
 const findDirMatrixEnterPower = (matrix) => {
   const { length } = matrix;
   const result = [];
-  for (let i = 0; i < length; i++) {
+  for (let row = 0; row < length; row++) {
     let counter = 0;
-    for (let j = 0; j < length; j++) {
-      if (matrix[j][i]) {
+    for (let col = 0; col < length; col++) {
+      const hasConnect = matrix[col][row] === 1;
+      if (hasConnect) {
         counter++;
       }
     }
@@ -50,10 +55,11 @@ const findDirMatrixEnterPower = (matrix) => {
 const findDirMatrixExitPower = (matrix) => {
   const { length } = matrix;
   const result = [];
-  for (let i = 0; i < length; i++) {
+  for (let row = 0; row < length; row++) {
     let counter = 0;
-    for (let j = 0; j < length; j++) {
-      if (matrix[i][j]) {
+    for (let col = 0; col < length; col++) {
+      const hasConnect = matrix[row][col] === 1;
+      if (hasConnect) {
         counter++;
       }
     }
@@ -80,7 +86,4 @@ const vertexesPower = (matrix) => {
 module.exports = {
   vertexesPower,
   findDirMatrixPower,
-  findUndirMatrixPower,
-  findDirMatrixEnterPower,
-  findDirMatrixExitPower,
 };

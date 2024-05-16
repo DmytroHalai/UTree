@@ -10,10 +10,13 @@ const isolAndHangingVertexes = (matrix) => {
     hangResult: [],
   };
   for (let i = 0; i < length; i++) {
-    if (powerArr[i] === 1) {
-      result.hangResult.push(i + 1);
-    } else if (!powerArr[i]) {
-      result.isolResult.push(i + 1);
+    const isHanging = powerArr[i] === 1;
+    const isIsolated = !powerArr[i];
+    const verIndex = i + 1;
+    if (isHanging) {
+      result.hangResult.push(verIndex);
+    } else if (isIsolated) {
+      result.isolResult.push(verIndex);
     }
   }
   return result;

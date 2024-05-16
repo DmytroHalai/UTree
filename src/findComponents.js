@@ -14,12 +14,13 @@ const {
 const findComponents = (matrix) => {
   const result = {};
   const valueToIndexMap = {};
-  let indexCounter = 1;
   const strongMatrixConverted = convertMatrixToString(
     strongMatrix(reachMatrix(matrix)),
   );
+  let indexCounter = 1;
 
-  Object.entries(strongMatrixConverted).forEach(([key, value]) => {
+  const entries = Object.entries(strongMatrixConverted);
+  for (const [key, value] of entries) {
     if (!valueToIndexMap[value]) {
       valueToIndexMap[value] = indexCounter;
       result[indexCounter] = [key];
@@ -27,7 +28,7 @@ const findComponents = (matrix) => {
     } else {
       result[valueToIndexMap[value]].push(key);
     }
-  });
+  }
 
   return result;
 };

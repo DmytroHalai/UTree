@@ -18,7 +18,9 @@ const multMatrix = (matrix1, matrix2) => {
     for (let j = 0; j < length; j++) {
       let res = 0;
       for (let k = 0; k < length; k++) {
-        res += matrix1[i][k] * matrix2[k][j];
+        const firstMatrixElement = matrix1[i][k];
+        const secondMatrixElement = matrix2[k][j];
+        res += firstMatrixElement * secondMatrixElement;
       }
       result[i][j] = res;
     }
@@ -41,24 +43,23 @@ const powerMatrix = (matrix, num) => {
  */
 const reachMatrix = (matrix) => {
   const { length } = matrix;
-  let matrixObject = {
+  const matrixObject = {
     1: matrix,
   };
   for (let i = 2; i <= length - 1; i++) {
     const num = i - 1;
     matrixObject[`${i}`] = multMatrix(matrix, matrixObject[`${num}`]);
   }
-  let result = Array.from({ length }, () => new Array(length));
-  for (let i = 0; i < length; i++) {
-    for (let j = 0; j < length; j++) {
+  const result = Array.from({ length }, () => new Array(length));
+  for (let row = 0; row < length; row++) {
+    for (let col = 0; col < length; col++) {
       let val = false;
       for (let key in matrixObject) {
-        if (matrixObject[key][i][j]) {
-          val = true;
-          break;
-        }
+        const tempMatrix = matrixObject[key];
+        val = tempMatrix[row][col] !== 0;
+        if (val) break;
       }
-      result[i][j] = val || i === j ? 1 : 0;
+      result[row][col] = val || row === col ? 1 : 0;
     }
   }
   return result;
@@ -67,9 +68,9 @@ const reachMatrix = (matrix) => {
 const transMatrix = (matrix) => {
   const { length } = matrix;
   let result = Array.from({ length }, () => Array(length).fill(0));
-  for (let i = 0; i < length; i++) {
-    for (let j = 0; j < length; j++) {
-      result[i][j] = matrix[j][i];
+  for (let row = 0; row < length; row++) {
+    for (let col = 0; col < length; col++) {
+      result[row][col] = matrix[col][row];
     }
   }
   return result;
@@ -84,9 +85,9 @@ const strongMatrix = (matrix) => {
   const reach = reachMatrix(matrix);
   const trans = transMatrix(reach);
   const result = Array.from({ length }, () => new Array(length));
-  for (let i = 0; i < length; i++) {
-    for (let j = 0; j < length; j++) {
-      result[i][j] = trans[i][j] * reach[i][j];
+  for (let row = 0; row < length; row++) {
+    for (let col = 0; col < length; col++) {
+      result[row][col] = trans[row][col] * reach[row][col];
     }
   }
   return result;

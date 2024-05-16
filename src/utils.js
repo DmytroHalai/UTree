@@ -11,54 +11,44 @@ const vectorModule = (vector) => {
   return Math.sqrt(vector.x * vector.x + vector.y * vector.y);
 };
 
-const createCoordsCollection = (coords, i, action, weight, height, last) => {
+const findCoord = (coords, i, action, weight, height, last) => {
   const previous = i - 1;
   action(coords, i, previous, weight, height, last);
 };
 
 const findVertexCoord = (count, x, y, ctxHeight, ctxWeight) => {
-  let coords = {
+  const coords = {
     xCoord: [],
     yCoord: [],
   };
+  const actions = {};
 
-  const actions = new Map([
-    [
-      1,
-      (coords, i, previous, weightInterval) => {
-        coords.xCoord[i] = coords.xCoord[previous] + weightInterval;
-        coords.yCoord[i] = coords.yCoord[previous];
-      },
-    ],
-    [
-      2,
-      (coords, i, previous, weightInterval, heightInterval) => {
-        coords.xCoord.push(coords.xCoord[previous]);
-        coords.yCoord[i] = coords.yCoord[previous] + heightInterval;
-      },
-    ],
-    [
-      3,
-      (coords, i, previous, weightInterval) => {
-        coords.xCoord[i] = coords.xCoord[previous] - weightInterval;
-        coords.yCoord[i] = coords.yCoord[previous];
-      },
-    ],
-    [
-      4,
-      (
-        coords,
-        i,
-        previous,
-        weightInterval,
-        heightInterval,
-        lastSideInterval,
-      ) => {
-        coords.xCoord[i] = coords.xCoord[previous];
-        coords.yCoord[i] = coords.yCoord[previous] - lastSideInterval;
-      },
-    ],
-  ]);
+  actions[1] = (coords, i, previous, weightInterval) => {
+    coords.xCoord[i] = coords.xCoord[previous] + weightInterval;
+    coords.yCoord[i] = coords.yCoord[previous];
+  };
+
+  actions[2] = (coords, i, previous, weightInterval, heightInterval) => {
+    coords.xCoord.push(coords.xCoord[previous]);
+    coords.yCoord[i] = coords.yCoord[previous] + heightInterval;
+  };
+
+  actions[3] = (coords, i, previous, weightInterval) => {
+    coords.xCoord[i] = coords.xCoord[previous] - weightInterval;
+    coords.yCoord[i] = coords.yCoord[previous];
+  };
+
+  actions[4] = (
+    coords,
+    i,
+    previous,
+    weightInterval,
+    heightInterval,
+    lastSideInterval,
+  ) => {
+    coords.xCoord[i] = coords.xCoord[previous];
+    coords.yCoord[i] = coords.yCoord[previous] - lastSideInterval;
+  };
 
   const vertexesPerSide = Math.floor(count / 4); // 4 is amount of sides in rectangle
   const vertexAmount = {
@@ -67,22 +57,18 @@ const findVertexCoord = (count, x, y, ctxHeight, ctxWeight) => {
     3: vertexesPerSide,
     4: count - vertexesPerSide * 3,
   };
-  console.log(vertexAmount);
   let pointer = 1;
-  const heightInterval = ctxHeight / vertexesPerSide,
-    weightInterval = ctxWeight / vertexesPerSide,
-    lastSideInterval = ctxHeight / vertexAmount['4'];
-  console.log(heightInterval);
-  console.log(weightInterval);
-  console.log(lastSideInterval);
+  const heightInterval = ctxHeight / vertexesPerSide;
+  const weightInterval = ctxWeight / vertexesPerSide;
+  const lastSideInterval = ctxHeight / vertexAmount['4'];
   coords.xCoord[0] = x;
   coords.yCoord[0] = y;
 
   for (let i = 1; i < count; i++) {
-    createCoordsCollection(
+    findCoord(
       coords,
       i,
-      actions.get(pointer),
+      actions[pointer],
       weightInterval,
       heightInterval,
       lastSideInterval,
@@ -93,43 +79,53 @@ const findVertexCoord = (count, x, y, ctxHeight, ctxWeight) => {
   return coords;
 };
 
-const lineVal = (coords, i, j, radius) => {
-  const startX = coords.xCoord[i];
-  const startY = coords.yCoord[i];
-  const endX = coords.xCoord[j];
-  const endY = coords.yCoord[j];
+const heronsFormula = (length1, length2, length3) => {
+  const p = (length1 + length2 + length3) / 2;
+  return (
+    Math.sqrt(p * (p - length1) * (p - length2) * (p - length3) * 2) / length1
+  );
+};
+
+const lineVal = (coords, start, end, radius) => {
+  const startX = coords.xCoord[start];
+  const startY = coords.yCoord[start];
+  const endX = coords.xCoord[end];
+  const endY = coords.yCoord[end];
   const vector1 = vector(startX, startY, endX, endY);
-  const a = vectorModule(vector1);
+  const vectorModule1 = vectorModule(vector1);
   let valResult = false;
   for (let k = 0; k < coords.xCoord.length; k++) {
-    if (k === i || k === j) continue;
-    if (Math.abs(j - i) === 1) break;
+    if (k === start || k === end) continue;
+    const isNeighbourVertex = Math.abs(end - start) === 1;
+    if (isNeighbourVertex) break;
     const vector2 = vector(startX, startY, coords.xCoord[k], coords.yCoord[k]);
     const vector3 = vector(coords.xCoord[k], coords.yCoord[k], endX, endY);
-    const b = vectorModule(vector2);
-    const c = vectorModule(vector3);
-    const p = (a + b + c) / 2;
-    const height = (Math.sqrt(p * (p - a) * (p - b) * (p - c)) * 2) / a;
+    const vectorModule2 = vectorModule(vector2);
+    const vectorModule3 = vectorModule(vector3);
+    const height = heronsFormula(vectorModule1, vectorModule2, vectorModule3);
     valResult = height < radius;
     if (valResult) break;
   }
   return valResult;
 };
 
-const calculateAngle = (coords, i, j) => {
-  const startX = coords.xCoord[i];
-  const startY = coords.yCoord[i];
-  const endX = coords.xCoord[j];
-  const endY = coords.yCoord[j];
+const calculateAngle = (coords, start, end) => {
+  const startX = coords.xCoord[start];
+  const startY = coords.yCoord[start];
+  const endX = coords.xCoord[end];
+  const endY = coords.yCoord[end];
   return Math.atan2(endY - startY, endX - startX);
 };
 
 const checkRepeat = (val, i) => {
-  const startC = val.start[i],
-    endC = val.end[i];
+  const start = val.start[i];
+  const end = val.end[i];
   let result = true;
-  for (let j = 0; j < val.start.length; j++) {
-    result = !(startC === val.start[j] && endC === val.end[j] && j > i);
+  const { length } = val.start;
+  for (let j = 0; j < length; j++) {
+    const isStitchAtStart = start === val.start[j];
+    const isStitchAtEnd = end === val.end[j];
+    result = !(isStitchAtStart && isStitchAtEnd && j > i);
   }
   return result;
 };
@@ -137,7 +133,7 @@ const checkRepeat = (val, i) => {
 module.exports = {
   vector,
   vectorModule,
-  createCoordsCollection,
+  createCoordsCollection: findCoord,
   findVertexCoord,
   lineVal,
   calculateAngle,

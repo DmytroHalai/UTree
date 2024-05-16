@@ -21,7 +21,7 @@ const dfs = (matrix, startVertex) => {
     if (returns) path.push(vertex);
     let flag = false;
     for (let i = 0; i < length; i++) {
-      const hasConnect = matrix[vertex][i];
+      const hasConnect = matrix[vertex][i] === 1;
       if (!hasConnect || visited[i]) continue;
       returns = false;
       stack.push(i);

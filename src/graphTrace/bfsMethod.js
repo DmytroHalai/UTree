@@ -18,7 +18,7 @@ const bfs = (matrix, startVertex) => {
   while (q.length > 0) {
     const vertex = q.shift();
     for (let u = 0; u < length; u++) {
-      const hasConnect = matrix[vertex][u];
+      const hasConnect = matrix[vertex][u] === 1;
       if (hasConnect && !visited[u]) {
         bfsMatrix[vertex][u] = 1;
         path.push(u);
