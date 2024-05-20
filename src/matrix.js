@@ -6,9 +6,17 @@ const createDirMatrix = (count) => {
 };
 
 const undirMatrix = (matrix) => {
-  return matrix.map((value, i) =>
-    value.map((value1, j) => (matrix[j][i] ? 1 : 0)),
-  );
+  const { length } = matrix;
+
+  for (let i = 0; i < length; i++) {
+    for (let j = 0; j < length; j++) {
+      if (matrix[i][j] === 1) {
+        matrix[j][i] = 1;
+      }
+    }
+  }
+
+  return matrix;
 };
 
 const multMatrix = (matrix1, matrix2) => {
@@ -28,8 +36,17 @@ const multMatrix = (matrix1, matrix2) => {
   return result;
 };
 
+const identityMatrix = (num) => {
+  let matrix = Array.from({ length: num }, () => Array(num).fill(0));
+  for (let i = 0; i < num; i++) {
+    matrix[i][i] = 1;
+  }
+  return matrix;
+};
+
 const powerMatrix = (matrix, num) => {
   let temp = [];
+  if (num === 0) return identityMatrix(matrix.length);
   if (num === 1) return matrix;
   num--;
   temp = powerMatrix(matrix, num);

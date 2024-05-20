@@ -6,7 +6,7 @@
  * @param startVertex The vertex trace will be started at.
  * @returns {{path: *[], bfsMatrix: any[][]}} The path of the tracing and bfs matrix.
  */
-const bfs = (matrix, startVertex) => {
+const bfs = (matrix, startVertex = 0) => {
   const { length } = matrix;
   const bfsMatrix = Array.from({ length }, () => new Array(length).fill(0));
   const q = [];

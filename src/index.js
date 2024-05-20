@@ -12,7 +12,12 @@ const { isRegular } = require('./graphRegularity.js');
 const { isolVertex, hangVertex } = require('./findIsolatedVertexes.js');
 const { findWay } = require('./graphWays.js');
 const { dfs } = require('./graphTrace/dfsMethod.js');
-const { reachMatrix, strongMatrix, multMatrix, transMatrix } = require('./matrix.js');
+const {
+  reachMatrix,
+  strongMatrix,
+  multMatrix,
+  transMatrix,
+} = require('./matrix.js');
 
 module.exports = {
   vertexesPower,
