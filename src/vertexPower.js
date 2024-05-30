@@ -23,8 +23,9 @@ const findDirMatrixPower = (matrix) => {
   const result = [];
   for (let row = 0; row < length; row++) {
     let counter = 0;
+    const verConnects = matrix[row];
     for (let col = 0; col < length; col++) {
-      const hasConnect = matrix[row][col] === 1 || matrix[col][row] === 1;
+      const hasConnect = verConnects[col] === 1 || matrix[col][row] === 1;
       const isStitch = col === row;
       if (hasConnect) {
         if (isStitch) counter++;

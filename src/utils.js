@@ -1,11 +1,9 @@
 'use strict';
 
-const vector = (x1, y1, x2, y2) => {
-  return {
-    x: x2 - x1,
-    y: y2 - y1,
-  };
-};
+const vector = (x1, y1, x2, y2) => ({
+  x: x2 - x1,
+  y: y2 - y1,
+});
 
 const vectorModule = (vector) => {
   return Math.sqrt(vector.x * vector.x + vector.y * vector.y);

@@ -31,6 +31,7 @@ const findTempConnectionLength2 = (vertexInfo, length, matrix, result) => {
     }
   }
 };
+
 const findTempConnectionLength3 = (vertexInfo, length, matrix, result) => {
   const { start, end } = vertexInfo;
   for (let k = 0; k < length; k++) {

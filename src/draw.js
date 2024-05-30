@@ -17,6 +17,7 @@ const drawOnlyVertex = (coords, vertex, ctx, radius, colorName) => {
   const x = coords.xCoord[vertex];
   const y = coords.yCoord[vertex];
   const startRad = 0;
+  const vertexNumber = (vertex + 1).toString();
   ctx.beginPath();
   ctx.arc(x, y, radius, startRad, fullCircle);
   ctx.strokeStyle = colorName;
@@ -24,7 +25,7 @@ const drawOnlyVertex = (coords, vertex, ctx, radius, colorName) => {
   ctx.fillStyle = 'white';
   ctx.fill();
   ctx.fillStyle = 'black';
-  ctx.fillText((vertex + 1).toString(), x, y);
+  ctx.fillText(vertexNumber, x, y);
   ctx.closePath();
 };
 
@@ -60,21 +61,24 @@ const drawStitch = (coords, vertex, ctx, radius, colorName) => {
 const findStartEnd = (coords, startVertex, endVertex, radius, angle) => {
   const sin = Math.sin(angle);
   const cos = Math.cos(angle);
-  return {
-    startX: coords.xCoord[startVertex] + radius * cos,
-    startY: coords.yCoord[startVertex] + radius * sin,
-    endX: coords.xCoord[endVertex] - radius * cos,
-    endY: coords.yCoord[endVertex] - radius * sin,
+  const start = {
+    x: coords.xCoord[startVertex] + radius * cos,
+    y: coords.yCoord[startVertex] + radius * sin,
   };
+  const end = {
+    x: coords.xCoord[endVertex] - radius * cos,
+    y: coords.yCoord[endVertex] - radius * sin,
+  };
+  return { start, end };
 };
 
 const drawLine = (coords, vertexInfo, ctx, angle, colorName) => {
   const { startVer, endVer, radius } = vertexInfo;
-  const points = findStartEnd(coords, startVer, endVer, radius, angle);
+  const { start, end } = findStartEnd(coords, startVer, endVer, radius, angle);
   ctx.beginPath();
   ctx.strokeStyle = colorName;
-  ctx.moveTo(points.startX, points.startY);
-  ctx.lineTo(points.endX, points.endY);
+  ctx.moveTo(start.x, start.y);
+  ctx.lineTo(end.x, end.y);
   ctx.stroke();
   ctx.closePath();
 };
@@ -85,15 +89,15 @@ const findAvg = (x, y) => {
 
 const drawEllipse = (coords, vertexInfo, angle, ctx, colorName) => {
   const { startVer, endVer, radius } = vertexInfo;
-  const points = findStartEnd(coords, startVer, endVer, radius, angle);
-  const middleX = findAvg(points.startX, points.endX);
-  const middleY = findAvg(points.startY, points.endY);
+  const { start, end } = findStartEnd(coords, startVer, endVer, radius, angle);
+  const middleX = findAvg(start.x, end.x);
+  const middleY = findAvg(start.y, end.y);
   const newAngle = Math.atan2(
-    points.endY - points.startY,
-    points.endX - points.startX,
+    end.y - start.y,
+    end.x - start.x,
   );
   const triangleRadius = vectorModule(
-    vector(points.startX, points.startY, points.endX, points.endY),
+    vector(start.x, start.y, end.x, end.y),
   );
   const ellipseHeight = radius * 2;
   const ellipseWidth = triangleRadius / 2;
@@ -101,7 +105,7 @@ const drawEllipse = (coords, vertexInfo, angle, ctx, colorName) => {
   const endRad = 0;
   ctx.beginPath();
   ctx.strokeStyle = colorName;
-  ctx.moveTo(points.startX, points.startY);
+  ctx.moveTo(start.x, start.y);
   ctx.ellipse(
     middleX,
     middleY,
@@ -117,22 +121,25 @@ const drawEllipse = (coords, vertexInfo, angle, ctx, colorName) => {
 };
 
 const leftRightArrow = (x, y, angle, rotate) => {
-  return {
-    leftX: x - ARROW_LENGTH * Math.cos(angle + rotate),
-    leftY: x - ARROW_LENGTH * Math.cos(angle - rotate),
-    rightX: y - ARROW_LENGTH * Math.sin(angle + rotate),
-    rightY: y - ARROW_LENGTH * Math.sin(angle - rotate),
+  const left = {
+    x: x - ARROW_LENGTH * Math.cos(angle + rotate),
+    y: x - ARROW_LENGTH * Math.cos(angle - rotate),
   };
+  const right = {
+    x: y - ARROW_LENGTH * Math.sin(angle + rotate),
+    y: y - ARROW_LENGTH * Math.sin(angle - rotate),
+  };
+  return { left, right };
 };
 
 const arrowWrapper = (angle, xArrow, yArrow, ctx, colorName, isArc = false) => {
-  const coords = isArc ? leftRightArrow(ARC_ROTATE) : leftRightArrow(ROTATE);
+  const { left, right } = isArc ? leftRightArrow(ARC_ROTATE) : leftRightArrow(ROTATE);
   ctx.beginPath();
   ctx.strokeStyle = colorName;
   ctx.moveTo(xArrow, yArrow);
-  ctx.lineTo(coords.leftX, coords.leftY);
+  ctx.lineTo(left.x, left.y);
   ctx.moveTo(xArrow, yArrow);
-  ctx.lineTo(coords.rightX, coords.rightY);
+  ctx.lineTo(right.x, right.y);
   ctx.stroke();
   ctx.closePath();
 };
@@ -151,6 +158,29 @@ const drawArrow = (
   arrowWrapper(angle, xArrow, yArrow, ctx, colorName, isArc);
 };
 
+const drawStitchEdge = (coords, vertexesInfo, ctx, colorName, isDir) => {
+  const { startVer, radius } = vertexesInfo;
+  drawStitch(coords, startVer, ctx, radius, colorName);
+  if (isDir) {
+    const angle = calculateAngle(coords, startVer, startVer);
+    drawArrow(coords, vertexesInfo, angle, ctx, colorName);
+  }
+};
+
+const drawArcEdge = (coords, vertexesInfo, ctx, colorName, isDir) => {
+  const { startVer, endVer } = vertexesInfo;
+  const angle = calculateAngle(coords, startVer, endVer);
+  drawEllipse(coords, vertexesInfo, angle, ctx, colorName);
+  if (isDir) drawArrow(coords, vertexesInfo, angle, ctx, colorName, true);
+};
+
+const drawStraightEdge = (coords, vertexesInfo, ctx, colorName, isDir) => {
+  const { startVer, endVer } = vertexesInfo;
+  const angle = calculateAngle(coords, startVer, endVer);
+  drawLine(coords, vertexesInfo, ctx, angle, colorName);
+  if (isDir) drawArrow(coords, vertexesInfo, angle, ctx, colorName);
+};
+
 const drawEdge = (
   coords,
   vertexesInfo,
@@ -159,22 +189,16 @@ const drawEdge = (
   isDir = false,
 ) => {
   const { startVer, endVer, radius, matrix } = vertexesInfo;
-  const angle = calculateAngle(coords, startVer, endVer);
   const val = lineVal(coords, startVer, endVer, radius);
   const isStitch = startVer === endVer;
   const isLineBack = matrix[endVer][startVer] && startVer > endVer;
+
   if (isStitch) {
-    drawStitch(coords, startVer, ctx, radius, colorName);
-    if (isDir) drawArrow(coords, vertexesInfo, angle, ctx, colorName);
-    return;
-  }
-  if (isLineBack || val) {
-    const isArc = true;
-    drawEllipse(coords, vertexesInfo, angle, ctx, colorName);
-    if (isDir) drawArrow(coords, vertexesInfo, angle, ctx, colorName, isArc);
+    drawStitchEdge(coords, vertexesInfo, ctx, colorName, isDir);
+  } else if (isLineBack || val) {
+    drawArcEdge(coords, vertexesInfo, ctx, colorName, isDir);
   } else {
-    drawLine(coords, vertexesInfo, ctx, angle, colorName);
-    if (isDir) drawArrow(coords, vertexesInfo, angle, ctx, colorName);
+    drawStraightEdge(coords, vertexesInfo, ctx, colorName, isDir);
   }
 };
 
@@ -183,6 +207,7 @@ const drawCondVertex = (coords, vertex, radius, ctx) => {
   const y = coords.yCoord[vertex];
   const startRad = 0;
   const fullCircle = Math.PI * 2;
+  const vertexNumber = parseInt(vertex) + 1;
   ctx.beginPath();
   ctx.arc(x, y, radius, startRad, fullCircle);
   ctx.strokeStyle = 'black';
@@ -190,7 +215,7 @@ const drawCondVertex = (coords, vertex, radius, ctx) => {
   ctx.fillStyle = 'white';
   ctx.fill();
   ctx.fillStyle = 'black';
-  ctx.fillText(`K${parseInt(vertex) + 1}`, x, y);
+  ctx.fillText(`K${vertexNumber}`, x, y);
   ctx.closePath();
 };
 

@@ -10,11 +10,10 @@ const { findDirMatrixPower } = require('./vertexPower.js');
 const isRegular = (matrix) => {
   const powerDir = findDirMatrixPower(matrix);
   const val = powerDir[0];
-  let result = true;
   for (const item of powerDir) {
-    result = val === item;
+    if (!(val === item)) return false;
   }
-  return result;
+  return true;
 };
 
 module.exports = { isRegular };
