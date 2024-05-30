@@ -3,13 +3,12 @@
 const test = require('node:test');
 const assert = require('node:assert').strict;
 const lib = require('../src');
-const { compareMatrix } = require('./testUtils.js');
-const { compareArray } = require('./testUtils');
+const { compareMatrix, compareArray } = require('./testUtils.js');
 const {
   powerMatrix,
   undirMatrix,
   convertMatrixToString,
-} = require('../src/matrix');
+} = require('../src/matrix.js');
 const { transMatrix } = require('../src');
 
 test('Matrix multiplication', async (t) => {
